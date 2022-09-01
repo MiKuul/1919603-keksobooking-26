@@ -12,8 +12,10 @@ export function getRandomPositiveFloat (a, b, digits = 1) {
   return +result.toFixed(digits);
 }
 
+// получим случайнй элемент массива
 export const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
+// получим массив со случайной длинной
 export const getRandomArrayLength = (arr) => {
   const maxLength = arr.length;
   const lengthOfArray = getRandomPositiveInteger(1, maxLength);

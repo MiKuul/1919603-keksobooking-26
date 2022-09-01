@@ -5,10 +5,11 @@ const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg', 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 const TIME = ['12:00', '13:00', '14:00'];
 
+// создадим объект для последующего заполнения данными
 const generateObj = (number) => {
   const location = {
     lat: getRandomPositiveFloat(35.65000, 35.70000),
-    lng: getRandomPositiveFloat(139.70000, 139.80000),
+    lng: getRandomPositiveFloat(139.10000, 139.80000),
   };
   const object = {
     author: {
@@ -16,7 +17,7 @@ const generateObj = (number) => {
     },
     offer: {
       title: `Заголовок №${number}`,
-      address: `${location.lat}, ${location.lng}`,
+      adress: `${location.lat}, ${location.lng}`,
       price: getRandomPositiveInteger (1000, 5000),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomPositiveInteger (1, 5),
@@ -32,6 +33,7 @@ const generateObj = (number) => {
   return object;
 };
 
+// заполним массив созданными объектами для последюущего заполнения объектов данными
 export const generateAds = (number) => {
   const arr = [];
   for (let i = 0; i < number; i++) {
