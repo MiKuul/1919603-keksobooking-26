@@ -30,3 +30,14 @@ export const getRandomArrayLength = (arr) => {
   }
   return array;
 };
+
+const time = 500;
+
+export const debounce = (callback, timeoutDelay = time) => {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};

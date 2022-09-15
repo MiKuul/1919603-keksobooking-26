@@ -1,4 +1,4 @@
-const sliderElement = document.querySelector('.ad-form__slider');
+export const sliderElement = document.querySelector('.ad-form__slider');
 const valueElement = document.querySelector('#price');
 
 const priceValue = Number(valueElement.getAttribute('min'));
@@ -11,6 +11,14 @@ noUiSlider.create(sliderElement, {
   start: priceValue,
   step: 1,
   connect: 'lower',
+  format: {
+    from: function(value) {
+      return parseInt(value, 10);
+    },
+    to: function(value) {
+      return parseInt(value, 10);
+    }
+  }
 });
 
 sliderElement.noUiSlider.on('update', () => {

@@ -38,13 +38,12 @@ export const createCard = (obj) => {
   cardElement.querySelector('.popup__description').textContent = offer.description;
   cardElement.querySelector('.popup__photo').remove();
 
-  addPhotos(offer.photos, cardElement.querySelector('.popup__photos'));
+  if (offer.photos !== undefined) {
+    addPhotos(offer.photos, cardElement.querySelector('.popup__photos'));
+  }
 
   cardElement.querySelector('.popup__avatar').src = author.avatar;
 
-  // if (cardElement.textContent === '') {
-  //   cardElement.classList.add('visually-hidden');
-  // }
   return cardElement;
 };
 

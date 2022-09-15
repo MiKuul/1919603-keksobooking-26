@@ -1,11 +1,37 @@
 import './util.js';
-import './form.js';
-import './form-validate.js';
-import {generateAds} from './data.js';
+import {blockform} from './form.js';
+import {setOnFormSubmit, reset} from './form-validate.js';
 import './card.js';
-import './slider.js';
-import {showMarkers} from './map.js';
+import {updateSlider} from './slider.js';
+import {showMarkers, mainAdress, mainPinMarker} from './map.js';
+import {getData} from './download-data.js';
+import {showErrorMessage, showSendSuccessMessage, showSendErrorMessage} from './system-messages.js';
+import {getMainData, filterData} from './filter.js';
+import {sendData} from './send-data.js';
 
-const data = generateAds(10); // eslint-disable-line
-showMarkers(data);
+const onLoadSuccess = (data) => {
+  showMarkers(filterData(getMainData(data)));
+};
 
+const onLoadError = (error) => {
+  blockform();
+  showErrorMessage(error);
+};
+
+getData(onLoadSuccess, onLoadError);
+
+const onSendDataSuccess = () => {
+  reset();
+  mainPinMarker.setLatLng([35.6895, 139.692]).update();
+  mainAdress.placeholder = '35.6895, 139.692';
+  updateSlider();
+  showSendSuccessMessage();
+};
+
+const onSendDataError = () => {
+  showSendErrorMessage();
+};
+
+setOnFormSubmit(async (data) => {
+  await sendData(onSendDataSuccess, onSendDataError, data);
+});

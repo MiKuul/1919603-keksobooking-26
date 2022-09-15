@@ -1,7 +1,9 @@
 import {activeForm} from './form.js';
 import {createCard} from './card.js';
 
-const mainAdress = document.querySelector('#address');
+export const mainAdress = document.querySelector('#address');
+const resetButton = document.querySelector('.ad-form__reset');
+mainAdress.placeholder = '35.6895, 139.692';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -33,7 +35,7 @@ const adPinIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-const mainPinMarker = L.marker(
+export const mainPinMarker = L.marker(
   {
     lat: 35.6895,
     lng: 139.692,
@@ -52,6 +54,13 @@ mainPinMarker.on('moveend', (evt) => {
   mainAdress.value = `${latLng[0].toFixed(5)}, ${latLng[1].toFixed(5)}`;
 });
 
+resetButton.addEventListener('click', () => {
+  mainPinMarker.setLatLng([35.6895, 139.692]).update();
+  mainAdress.placeholder = '35.6895, 139.692';
+});
+
+export const markerGroup = L.layerGroup().addTo(map);
+
 export const showMarkers = (arr) => {
   arr.forEach((it) => {
     const {location} = it;
@@ -66,7 +75,7 @@ export const showMarkers = (arr) => {
     );
 
     adPinMarker
-      .addTo(map)
+      .addTo(markerGroup)
       .bindPopup(createCard(it));
   });
 };

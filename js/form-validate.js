@@ -1,4 +1,9 @@
 import {updateSlider} from './slider.js';
+import {filters} from './form.js';
+import {showMarkers} from './map.js';
+import {filterData} from './filter.js';
+
+const TYPES = ['jpg', 'jpeg', 'png'];
 
 const form = document.querySelector('.ad-form');
 const title = document.querySelector('#title');
@@ -8,11 +13,50 @@ const checkin = document.querySelector('#timein');
 const checkout = document.querySelector('#timeout');
 const rooms = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const submitButton = document.querySelector('.ad-form__submit');
+const resetButton = document.querySelector('.ad-form__reset');
+const checkboxes = document.querySelectorAll('.map__checkbox');
+const avatar = document.querySelector('#avatar');
+const housePhoto = document.querySelector('#images');
+const avatarPreview = document.querySelector('.ad-form-header__preview img');
+const imagePlace = document.querySelector('.ad-form__photo');
+
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return TYPES.some((it) => fileName.endsWith(it));
+};
+
+const changeAvatar = () => {
+  const file = avatar.files[0];
+  if (file && isValidType(file)) {
+    avatarPreview.src = URL.createObjectURL(file);
+  }
+};
+
+const changeImage = () => {
+  const file = housePhoto.files[0];
+  if (file && isValidType(file)) {
+    const img = document.createElement('img');
+    img.style.width = 'inherit';
+    img.style.height = 'inherit';
+    img.src = '';
+    imagePlace.appendChild(img);
+    img.src = URL.createObjectURL(file);
+  }
+};
+
+avatar.addEventListener('change', () => {
+  changeAvatar();
+});
+
+housePhoto.addEventListener('change', () => {
+  changeImage();
+});
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form',
   errorClass: 'ad-form__error',
-  errorTextParent: 'ad-form',
+  errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
   errorTextClass: 'ad-form__text-error',
 });
@@ -43,7 +87,7 @@ type.addEventListener('change', () => {
 });
 
 // валидируем цену
-const validatePrice = (value) => newValue < value && value <= 100000;
+const validatePrice = (value) => newValue <= value && value <= 100000;
 
 //устанавливаем время заезда согласно времени выезда
 checkin.addEventListener('change', () => {
@@ -92,9 +136,44 @@ pristine.addValidator(
 
 pristine.validate();
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+export const reset = () => {
+  filters.forEach((filter) => {
+    filter.value ='any';
+  });
+  checkboxes.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+  showMarkers(filterData());
+  avatarPreview.src = 'img/muffin-grey.svg';
+  const img = imagePlace.querySelector('img');
+  img.remove();
+  form.reset();
+};
+
+resetButton.addEventListener('click', () => {
+  reset();
 });
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Отправляю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+export const setOnFormSubmit = (cb) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      await cb(new FormData(form));
+      unblockSubmitButton();
+    }
+  });
+};
 
 
