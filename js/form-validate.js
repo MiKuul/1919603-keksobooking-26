@@ -54,7 +54,7 @@ housePhoto.addEventListener('change', () => {
 });
 
 const pristine = new Pristine(form, {
-  classTo: 'ad-form',
+  classTo: 'ad-form__element',
   errorClass: 'ad-form__error',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
@@ -133,8 +133,6 @@ pristine.addValidator(
   compareGuestsAndRooms,
   'Некорректное отношение кол-ва гостей к кол-ву комнат'
 );
-
-pristine.validate();
 
 export const reset = () => {
   filters.forEach((filter) => {

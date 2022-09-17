@@ -1,4 +1,3 @@
-const mapWindow = document.querySelector('map');
 const mainOfHtml = document.querySelector('main');
 const bodyOfHtml = document.querySelector('body');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -25,7 +24,6 @@ const closeSystemMessage = () => {
     document.querySelector('.success').remove();
   } else {
     document.querySelector('.error').remove();
-    mapWindow.classList.remove('hidden');
   }
   document.removeEventListener('keydown', onKeyDownListener);
 };
