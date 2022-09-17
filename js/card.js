@@ -2,7 +2,6 @@ const cardTemplate = document.querySelector('#card').content.querySelector('.pop
 const cardList = document.querySelector('#map-canvas');
 const photoTemplate = cardTemplate.querySelector('.popup__photo');
 
-// установим тип жилья
 const setType = (value) => {
   switch(value) {
     case 'flat' : return 'Квартира';
@@ -13,7 +12,6 @@ const setType = (value) => {
   }
 };
 
-// добавим фотографии жилья
 const addPhotos = (arr, photoList) => {
   const fragment = document.createDocumentFragment();
   arr.forEach((it) => {
@@ -24,7 +22,6 @@ const addPhotos = (arr, photoList) => {
   photoList.appendChild(fragment);
 };
 
-// создадим и заполним карточку объявления
 export const createCard = (obj) => {
   const {offer, author} = obj;
   const cardElement = cardTemplate.cloneNode(true);
@@ -47,7 +44,6 @@ export const createCard = (obj) => {
   return cardElement;
 };
 
-// зальем карточку объявления
 export const renderCard = (arr) => {
   const fragment = document.createDocumentFragment();
   arr.forEach((it) => {

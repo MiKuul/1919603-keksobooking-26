@@ -2,7 +2,7 @@ import './util.js';
 import {blockform} from './form.js';
 import {setOnFormSubmit, reset} from './form-validate.js';
 import './card.js';
-import {updateSlider} from './slider.js';
+import './slider.js';
 import {showMarkers, mainAdress, mainPinMarker} from './map.js';
 import {getData} from './download-data.js';
 import {showErrorMessage, showSendSuccessMessage, showSendErrorMessage} from './system-messages.js';
@@ -24,7 +24,6 @@ const onSendDataSuccess = () => {
   reset();
   mainPinMarker.setLatLng([35.6895, 139.692]).update();
   mainAdress.placeholder = '35.6895, 139.692';
-  updateSlider();
   showSendSuccessMessage();
 };
 

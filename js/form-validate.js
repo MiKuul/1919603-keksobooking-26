@@ -1,11 +1,12 @@
 import {updateSlider} from './slider.js';
-import {filters} from './form.js';
+import './form.js';
 import {showMarkers} from './map.js';
 import {filterData} from './filter.js';
 
 const TYPES = ['jpg', 'jpeg', 'png'];
 
 const form = document.querySelector('.ad-form');
+const filtersForm = document.querySelector('.map__filters');
 const title = document.querySelector('#title');
 const price = document.querySelector('#price');
 const type = document.querySelector('#type');
@@ -61,10 +62,8 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__text-error',
 });
 
-// валидируем заголовок
 const validateTitle = (value) => 30 <= value.length && value.length <= 100;
 
-//устанавливаем цену
 let newValue = 0;
 const setPrice = (value) => {
   switch(value) {
@@ -86,7 +85,6 @@ type.addEventListener('change', () => {
   setPrice(type.value);
 });
 
-// валидируем цену
 const validatePrice = (value) => newValue <= value && value <= 100000;
 
 //устанавливаем время заезда согласно времени выезда
@@ -135,16 +133,13 @@ pristine.addValidator(
 );
 
 export const reset = () => {
-  filters.forEach((filter) => {
-    filter.value ='any';
-  });
+  filtersForm.reset();
   checkboxes.forEach((checkbox) => {
     checkbox.checked = false;
   });
   showMarkers(filterData());
   avatarPreview.src = 'img/muffin-grey.svg';
-  const img = imagePlace.querySelector('img');
-  img.remove();
+  imagePlace.querySelectorAll('img').forEach((it) => it.remove());
   form.reset();
 };
 

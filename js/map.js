@@ -3,7 +3,7 @@ import {createCard} from './card.js';
 
 export const mainAdress = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
-mainAdress.placeholder = '35.6895, 139.692';
+mainAdress.value = '35.6895, 139.692';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -48,7 +48,7 @@ export const mainPinMarker = L.marker(
 
 
 mainPinMarker.addTo(map);
-mainPinMarker.on('moveend', (evt) => {
+mainPinMarker.on('move', (evt) => {
   const obj = evt.target.getLatLng();
   const latLng = Object.values(obj);
   mainAdress.value = `${latLng[0].toFixed(5)}, ${latLng[1].toFixed(5)}`;
@@ -56,7 +56,7 @@ mainPinMarker.on('moveend', (evt) => {
 
 resetButton.addEventListener('click', () => {
   mainPinMarker.setLatLng([35.6895, 139.692]).update();
-  mainAdress.placeholder = '35.6895, 139.692';
+  mainAdress.value = '35.6895, 139.692';
 });
 
 export const markerGroup = L.layerGroup().addTo(map);
