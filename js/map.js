@@ -1,16 +1,16 @@
-import {activeForm} from './form.js';
 import {createCard} from './card.js';
+import {blockform, activateForm} from './form.js';
 
 export const mainAdress = document.querySelector('#address');
 const resetButton = document.querySelector('.ad-form__reset');
 mainAdress.value = '35.6895, 139.692';
 
+blockform();
+
 const map = L.map('map-canvas')
   .on('load', () => {
-    console.log('Карта инициализирована'); // eslint-disable-line
-    activeForm();
+    activateForm();
   })
-
   .setView({
     lat: 35.6895,
     lng: 139.692,
