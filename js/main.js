@@ -21,6 +21,10 @@ const onLoadError = (error) => {
 getData(onLoadSuccess, onLoadError);
 
 const onSendDataSuccess = () => {
+  const popup = document.querySelector('.leaflet-popup');
+  if (popup !== null) {
+    popup.remove();
+  }
   reset();
   mainPinMarker.setLatLng([35.6895, 139.692]).update();
   mainAdress.value = '35.6895, 139.692';

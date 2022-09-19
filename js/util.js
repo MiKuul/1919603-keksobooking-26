@@ -1,3 +1,5 @@
+const TIME = 500;
+
 export function getRandomPositiveInteger (a, b) {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -29,9 +31,7 @@ export const getRandomArrayLength = (arr) => {
   return array;
 };
 
-const time = 500;
-
-export const debounce = (callback, timeoutDelay = time) => {
+export const debounce = (callback, timeoutDelay = TIME) => {
   let timeoutId;
 
   return (...rest) => {

@@ -17,14 +17,14 @@ export const blockform = () => {
   });
 };
 
-export const activeForm = () => {
+export const activateForm = () => {
   form.classList.remove('ad-form--disabled');
   formInput.forEach((element) => {
-    element.removeAttribute('disabled', 'disabled');
+    element.removeAttribute('disabled');
   });
-  sliderElement.removeAttribute('disabled', true);
+  sliderElement.removeAttribute('disabled');
   formFilters.classList.remove('map__filters--disabled');
   filters.forEach((element) => {
-    element.removeAttribute('disabled', 'disabled');
+    element.removeAttribute('disabled');
   });
 };

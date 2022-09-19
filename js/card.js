@@ -1,6 +1,7 @@
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 const cardList = document.querySelector('#map-canvas');
 const photoTemplate = cardTemplate.querySelector('.popup__photo');
+const featureTemplate = cardTemplate.querySelector('.popup__feature');
 
 const setType = (value) => {
   switch(value) {
@@ -22,6 +23,17 @@ const addPhotos = (arr, photoList) => {
   photoList.appendChild(fragment);
 };
 
+const addFeatures = (arr, featureList) => {
+  const fragment = document.createDocumentFragment();
+  arr.forEach((it) => {
+    const feature = featureTemplate.cloneNode(true);
+    feature.classList.remove('popup__feature--wifi');
+    feature.classList.add(`popup__feature--${it}`);
+    fragment.appendChild(feature);
+  });
+  featureList.appendChild(fragment);
+};
+
 export const createCard = (obj) => {
   const {offer, author} = obj;
   const cardElement = cardTemplate.cloneNode(true);
@@ -31,7 +43,10 @@ export const createCard = (obj) => {
   cardElement.querySelector('.popup__type').textContent = setType(offer.type);
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  cardElement.querySelector('.popup__features').textContent = offer.features;
+  cardTemplate.querySelectorAll('.popup__feature').forEach((it) => it.remove());
+  if (offer.features !== undefined) {
+    addFeatures(offer.features, cardElement.querySelector('.popup__features'));
+  }
   cardElement.querySelector('.popup__description').textContent = offer.description;
   cardElement.querySelector('.popup__photo').remove();
 

@@ -1,9 +1,18 @@
 import {updateSlider} from './slider.js';
 import './form.js';
-import {showMarkers} from './map.js';
+import {showMarkers, mainAdress, mainPinMarker} from './map.js';
 import {filterData} from './filter.js';
 
 const TYPES = ['jpg', 'jpeg', 'png'];
+const MIN_TITLE_LENGTH = 30;
+const MAX_TITLE_LENGTH = 100;
+const MIN_BUNGALOW_PRICE = 0;
+const MIN_FLAT_PRICE = 1000;
+const MIN_HOTEL_PRICE = 3000;
+const MIN_HOUSE_PRICE = 5000;
+const MIN_PALACE_PRICE = 10000;
+const MAX_PLACE_PRICE = 100000;
+
 
 const form = document.querySelector('.ad-form');
 const filtersForm = document.querySelector('.map__filters');
@@ -62,16 +71,16 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__text-error',
 });
 
-const validateTitle = (value) => 30 <= value.length && value.length <= 100;
+const validateTitle = (value) => MIN_TITLE_LENGTH <= value.length && value.length <= MAX_TITLE_LENGTH;
 
 let newValue = 0;
 const setPrice = (value) => {
   switch(value) {
-    case 'flat': newValue = 1000; break;
-    case 'bungalow': newValue = 0; break;
-    case 'house': newValue = 5000; break;
-    case 'palace': newValue = 10000; break;
-    case 'hotel': newValue = 3000; break;
+    case 'flat': newValue = MIN_FLAT_PRICE; break;
+    case 'bungalow': newValue = MIN_BUNGALOW_PRICE; break;
+    case 'house': newValue = MIN_HOUSE_PRICE; break;
+    case 'palace': newValue = MIN_PALACE_PRICE; break;
+    case 'hotel': newValue = MIN_HOTEL_PRICE; break;
   }
 
   price.setAttribute('min', newValue);
@@ -85,7 +94,7 @@ type.addEventListener('change', () => {
   setPrice(type.value);
 });
 
-const validatePrice = (value) => newValue <= value && value <= 100000;
+const validatePrice = (value) => newValue <= value && value <= MAX_PLACE_PRICE;
 
 //устанавливаем время заезда согласно времени выезда
 checkin.addEventListener('change', () => {
@@ -140,6 +149,8 @@ export const reset = () => {
   showMarkers(filterData());
   avatarPreview.src = 'img/muffin-grey.svg';
   imagePlace.querySelectorAll('img').forEach((it) => it.remove());
+  mainPinMarker.setLatLng([35.6895, 139.692]).update();
+  mainAdress.value = '35.6895, 139.692';
   form.reset();
 };
 
